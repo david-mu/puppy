@@ -15,8 +15,11 @@
  */
 package com.example.androiddevchallenge
 
-object Data {
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 
+object Data {
     val dogs = listOf(
         Dog(
             name = "Henri",
@@ -48,13 +51,35 @@ object Data {
             description = "Friendly",
             thumbnailUri = "https://placedog.net/500/300?id=5"
         )
-
     )
+}
+
+class DogsViewModel : ViewModel() {
+    private val _dogs = MutableLiveData(listOf<Dog>())
+    val dogs: LiveData<List<Dog>>
+        get() = _dogs
+
+    init {
+        _dogs.value = Data.dogs
+    }
+
+    fun requestDog(dogId: Int) {
+        val mutableDogList = _dogs.value!!.toMutableList()
+        mutableDogList[dogId] = _dogs.value!![dogId].copy(requested = true)
+        _dogs.value = mutableDogList
+    }
+
+    fun cancelRequestDog(dogId: Int) {
+        val mutableDogList = _dogs.value!!.toMutableList()
+        mutableDogList[dogId] = _dogs.value!![dogId].copy(requested = false)
+        _dogs.value = mutableDogList
+    }
 }
 
 data class Dog(
     val name: String,
     val thumbnailUri: String,
     val ageMonths: Int,
-    val description: String
+    val description: String,
+    val requested: Boolean = false
 )
