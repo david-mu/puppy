@@ -48,7 +48,7 @@ import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
 import com.example.androiddevchallenge.ui.theme.MyTheme
-import dev.chrisbanes.accompanist.coil.CoilImage
+import dev.chrisbanes.accompanist.picasso.PicassoImage
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,7 +95,7 @@ fun Home(navController: NavController) {
 fun Detail(dogId: Int) {
     val dog = Data.dogs[dogId]
     Column {
-        CoilImage(
+        PicassoImage(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp),
@@ -119,7 +119,7 @@ fun DogCard(dog: Dog, onClickCard: () -> Unit) {
                 .fillMaxWidth()
                 .height(200.dp),
         ) {
-            CoilImage(
+            PicassoImage(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(color = MaterialTheme.colors.surface),
